@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
-// Lightbox modal
+// ---------------- LIGHTBOX ----------------
 function Lightbox({ image, onClose }) {
     if (!image) return null
     return (
@@ -11,20 +11,27 @@ function Lightbox({ image, onClose }) {
     )
 }
 
-// Carousel component
+// ---------------- PROJECT CAROUSEL ----------------
 function ProjectCarousel({ images, label }) {
     const [lightboxImage, setLightboxImage] = useState(null)
     const carouselRef = useRef(null)
 
+    // Scroll to the start when component mounts
+    useEffect(() => {
+        if (carouselRef.current) {
+            carouselRef.current.scrollLeft = 0
+        }
+    }, [])
+
     const scrollLeft = () => {
         if (carouselRef.current) {
-            carouselRef.current.scrollBy({ left: -260, behavior: 'smooth' })
+            carouselRef.current.scrollBy({ left: -280, behavior: 'smooth' })
         }
     }
 
     const scrollRight = () => {
         if (carouselRef.current) {
-            carouselRef.current.scrollBy({ left: 260, behavior: 'smooth' })
+            carouselRef.current.scrollBy({ left: 280, behavior: 'smooth' })
         }
     }
 
@@ -58,53 +65,82 @@ function ProjectCarousel({ images, label }) {
     )
 }
 
-// Main Projects Section
-export default function ProjectsSection() {
+// ---------------- PROJECTS SECTION ----------------
+export function ProjectsSection() {
     const projectData = [
         {
             label: 'Kitchens',
             images: [
-                { src: '/images/kitchen1.jpg', alt: 'Modern Kitchen Remodel', caption: 'Modern Kitchen Remodel' },
-                { src: '/images/kitchen2.jpg', alt: 'Custom Kitchen Cabinets', caption: 'Custom Kitchen Cabinets' },
-                { src: '/images/kitchen3.jpg', alt: 'Kitchen Island Upgrade', caption: 'Kitchen Island Upgrade' },
-            ]
-        },
-        {
-            label: 'Trim Work',
-            images: [
-                { src: '/images/trim1.jpg', alt: 'Custom Interior Trim', caption: 'Custom Interior Trim' },
-                { src: '/images/trim2.jpg', alt: 'Decorative Moldings', caption: 'Decorative Moldings' },
-            ]
-        },
-        {
-            label: 'Barn & Reclaimed',
-            images: [
-                { src: '/images/barn1.jpg', alt: 'Reclaimed Barn Beam', caption: 'Reclaimed Barn Beam' },
-                { src: '/images/barn2.jpg', alt: 'Reclaimed Warehouse Planks', caption: 'Reclaimed Warehouse Planks' },
+                { src: '/images/kitchen2.png'},
+                { src: '/images/kitchen1.png'},
+                { src: '/images/kitchen3.png'},
             ]
         },
         {
             label: 'Bars',
             images: [
-                { src: '/images/bar1.jpg', alt: 'Custom Home Bar', caption: 'Custom Home Bar' },
+                { src: '/images/bars1.png' },
+                { src: '/images/bars2.png' },
+                { src: '/images/bars3.png' },
+                ,
             ]
+        },
+        {
+            label: 'Trim Work',
+            images: [
+                { src: '/images/trim1.png' },
+                { src: '/images/trim2.png' },
+                { src: '/images/trim6.png' },
+                { src: '/images/trim7.png' },
+                { src: '/images/trim8.png' },
+                { src: '/images/trim3.png' },
+                { src: '/images/trim4.png' },
+                { src: '/images/trim5.png' }
+            ]
+        },
+        {
+            label: 'Barn & Reclaimed',
+            images: [
+                { src: '/images/barn2.png' },
+                { src: '/images/barn1.png' },
+                { src: '/images/barn3.png' },
+                { src: '/images/barn4.png' },
+                { src: '/images/barn5.png' },
+                { src: '/images/barn6.png' },
+              ]
         }
     ]
 
     return (
         <section id="projects" className="section projects">
+
             <h2>Our Work</h2>
 
-            {projectData.map((category, idx) => (
-                <ProjectCarousel
-                    key={idx}
-                    images={category.images}
-                    label={category.label}
-                />
-            ))}
+
+
+            <div className="projects-container">
+
+                {projectData.map((category, idx) => (
+
+                    <ProjectCarousel
+
+                        key={idx}
+
+                        images={category.images}
+
+                        label={category.label}
+
+                    />
+
+                ))}
+
+            </div>
+
         </section>
     )
 }
+
+// ---------------- SERVICES CAROUSEL ----------------
 function ServicesCarousel() {
     const images = [
         '/images/services_6.png',
@@ -120,7 +156,7 @@ function ServicesCarousel() {
     useEffect(() => {
         const interval = setInterval(() => {
             setIndex((prev) => (prev + 1) % images.length)
-        }, 8000) // slow, smooth pacing
+        }, 8000)
 
         return () => clearInterval(interval)
     }, [images.length])
@@ -128,18 +164,13 @@ function ServicesCarousel() {
     return (
         <div className="services-carousel">
             {images.map((src, i) => (
-                <img
-                    key={src}
-                    src={src}
-                    alt="Construction and renovation work"
-                    className={i === index ? 'active' : ''}
-                />
+                <img key={i} src={src} alt="Construction and renovation work" className={i === index ? 'active' : ''} />
             ))}
         </div>
     )
 }
 
-
+// ---------------- APP COMPONENT ----------------
 export default function App() {
     const [menuOpen, setMenuOpen] = useState(false)
     const [heroAnimated, setHeroAnimated] = useState(false)
@@ -161,21 +192,15 @@ export default function App() {
             {/* NAVIGATION */}
             <nav className="nav">
                 <div className="logo-container">
-                    <img
-                        src="/images/kendalbrook_homes_logo.png"
-                        alt="Kendalbrook Homes Inc."
-                        className="logo-image"
-                    />
+                    <img src="/images/kendalbrook_homes_logo.png" alt="Kendalbrook Homes Inc." className="logo-image" />
                 </div>
 
-                {/* HAMBURGER BUTTON */}
                 <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
                     <span></span>
                     <span></span>
                     <span></span>
                 </button>
 
-                {/* DROPDOWN MENU */}
                 {menuOpen && (
                     <div className="menu">
                         <button onClick={() => scrollToSection('hero')}>Home</button>
@@ -191,21 +216,16 @@ export default function App() {
             <section id="hero" className="section hero">
                 <h1>Kendalbrook Homes Inc.</h1>
                 <p>Custom Homes • Renovations • Remodeling • Licensed & Insured • Serving Buckhead & Metro Atlanta</p>
-                <button
-                    className={`hero-button ${heroAnimated ? 'animate' : ''}`}
-                    onClick={() => scrollToSection('contact')}
-                >
+                <button className={`hero-button ${heroAnimated ? 'animate' : ''}`} onClick={() => scrollToSection('contact')}>
                     Contact Us
                 </button>
             </section>
 
             {/* SERVICES SECTION */}
-            {/* SERVICES SECTION */}
             <section id="services" className="section services">
                 <div className="services-inner">
                     <div className="services-content">
                         <h2>Services</h2>
-
                         <ul className="services-list">
                             <li>Custom Homes & Whole-House Renovations</li>
                             <li>Kitchens, Bathrooms, & Interior Remodeling</li>
@@ -218,10 +238,7 @@ export default function App() {
                             <li>Custom Trim & Cabinetry</li>
                             <li>Design-Build Renovations</li>
                         </ul>
-
                     </div>
-
-                    {/* IMAGE CAROUSEL */}
                     <ServicesCarousel />
                 </div>
             </section>
@@ -240,17 +257,41 @@ export default function App() {
                 </p>
             </section>
 
-            {/* PROJECTS / GALLERY SECTION */}
-<ProjectsSection/>
+            {/* PROJECTS SECTION */}
+            <ProjectsSection />
 
             {/* CONTACT SECTION */}
-            <section id="contact" className="section">
-                <h2>Get in Touch</h2>
-                <p>Contact Kendalbrook Homes Inc. to discuss your next project. We proudly serve the Atlanta metro area, throughout Georgia, and beyond.</p>
-                <p>📞 Phone: (555) 123-4567</p>
-                <p>📧 Email: smithhomes@email.com</p>
-                <p>🌐 Facebook: <a href="LINK_TO_FACEBOOK" target="_blank" rel="noopener noreferrer">Kendalbrook Homes Inc.</a></p>
-                <p>We can source materials from anywhere in the world to bring your project to life.</p>
+            <section id="contact" className="section contact">
+                <div className="contact-inner">
+                    {/* Logo on top / left */}
+                    <div className="contact-logo">
+                        <img src="/images/kendalbrook_homes_logo.png" alt="Kendalbrook Homes Inc." />
+                    </div>
+
+                    {/* Contact Info */}
+                    <div className="contact-info">
+                        <h2>Get in Touch</h2>
+                        <p>
+                            Reach out to Kendalbrook Homes Inc. to discuss your next project. We proudly serve Buckhead, the Atlanta metro area, and throughout Georgia.
+                        </p>
+                        <p>Phone: 678-925-0411</p>
+                        <p>Email: ckfouts@bellsouth.net</p>
+
+                        {/* Facebook button */}
+                        <a
+                            href="https://www.facebook.com/p/Kendalbrook-Homes-Inc-100063496987476/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="contact-facebook-button"
+                        >
+                            Visit Our Facebook Page
+                        </a>
+
+                        <p>
+                            We can source materials from anywhere in the world to bring your project to life.
+                        </p>
+                    </div>
+                </div>
             </section>
         </>
     )
