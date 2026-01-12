@@ -50,7 +50,22 @@ function ProjectCarousel({ images, label }) {
                             className="carousel-item"
                             onClick={() => setLightboxImage(img)}
                         >
-                            <img src={img.src} alt={img.alt} />
+                            <div
+                                key={i}
+                                className="carousel-item"
+                                onClick={() => setLightboxImage(img)}
+                            >
+                                <img
+                                    src={img.src}
+                                    alt={img.alt || ''}
+                                    loading="lazy"
+                                    onLoad={(e) =>
+                                        e.currentTarget.parentElement.classList.add('loaded')
+                                    }
+                                />
+                            </div>
+
+
                             <p>{img.caption}</p>
                         </div>
                     ))}
@@ -86,7 +101,7 @@ export function ProjectsSection() {
             ]
         },
         {
-            label: 'Trim Work',
+            label: 'Trim',
             images: [
                 { src: '/images/trim1.png' },
                 { src: '/images/trim2.png' },
@@ -99,7 +114,7 @@ export function ProjectsSection() {
             ]
         },
         {
-            label: 'Barn & Reclaimed',
+            label: 'Barn',
             images: [
                 { src: '/images/barn2.png' },
                 { src: '/images/barn1.png' },
@@ -274,22 +289,24 @@ export default function App() {
                         <p>
                             Reach out to Kendalbrook Homes Inc. to discuss your next project. We proudly serve Buckhead, the Atlanta metro area, and throughout Georgia.
                         </p>
-                        <p>Phone: 678-925-0411</p>
-                        <p>Email: ckfouts@bellsouth.net</p>
+                        <p>
+                            Phone:{' '}
+                            <a href="tel:16789250411" className="contact-link">
+                                678-925-0411
+                            </a>
+                        </p>
 
-                        {/* Facebook button */}
+                        <p className="contact-email">
+                            Email: ckfouts@bellsouth.net
+                        </p>
                         <a
-                            href="https://www.facebook.com/p/Kendalbrook-Homes-Inc-100063496987476/"
+                            href="LINK_TO_FACEBOOK"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="contact-facebook-button"
                         >
                             Visit Our Facebook Page
                         </a>
-
-                        <p>
-                            We can source materials from anywhere in the world to bring your project to life.
-                        </p>
                     </div>
                 </div>
             </section>
