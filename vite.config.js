@@ -10,4 +10,5 @@ export default defineConfig({
       },
     }),
   ],
+  base:'/kendalbrook_homes_portfolio/'
 })
