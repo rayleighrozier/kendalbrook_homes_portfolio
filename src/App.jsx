@@ -2,68 +2,81 @@ import { useState, useRef, useEffect } from 'react';
 import usePreloadCarouselImages from "./usePreloadCarouselImages.jsx";
 
 function Lightbox({ image, onClose }) {
-    if (!image) return null;
+    if (!image) return null
     return (
         <div className="lightbox" onClick={onClose}>
-            <img src={image.src} alt={image.alt || ""} />
-            {image.caption && <p>{image.caption}</p>}
+            <img src={image.src} alt={image.alt} />
+            <p>{image.caption}</p>
         </div>
-    );
+    )
 }
 
 function ProjectCarousel({ images, label }) {
-    const [lightboxImage, setLightboxImage] = useState(null);
-    const carouselRef = useRef(null);
+    const [lightboxImage, setLightboxImage] = useState(null)
+    const carouselRef = useRef(null)
+    const [canScrollLeft, setCanScrollLeft] = useState(false)
+    const [canScrollRight, setCanScrollRight] = useState(true)
 
     useEffect(() => {
-        if (carouselRef.current) carouselRef.current.scrollLeft = 0;
-    }, []);
+        const carousel = carouselRef.current
+        if (!carousel) return
+
+        const checkArrows = () => {
+            setCanScrollLeft(carousel.scrollLeft > 0)
+            setCanScrollRight(carousel.scrollLeft + carousel.clientWidth < carousel.scrollWidth - 1)
+        }
+
+        checkArrows()
+        carousel.addEventListener('scroll', checkArrows)
+        window.addEventListener('resize', checkArrows)
+
+        return () => {
+            carousel.removeEventListener('scroll', checkArrows)
+            window.removeEventListener('resize', checkArrows)
+        }
+    }, [])
 
     const scrollLeft = () => {
-        if (carouselRef.current)
-            carouselRef.current.scrollBy({ left: -280, behavior: "smooth" });
-    };
-    const scrollRight = () => {
-        if (carouselRef.current)
-            carouselRef.current.scrollBy({ left: 280, behavior: "smooth" });
-    };
+        carouselRef.current.scrollBy({ left: -280, behavior: 'smooth' })
+    }
 
-    const handleLoad = (e) => {
-        e.currentTarget.parentElement.classList.add("loaded");
-    };
+    const scrollRight = () => {
+        carouselRef.current.scrollBy({ left: 280, behavior: 'smooth' })
+    }
 
     return (
         <div className="project-carousel-container">
             {label && <span className="carousel-label">{label}</span>}
             <div className="project-carousel-wrapper">
-                <button className="desktop-arrow left" onClick={scrollLeft}>
-                    &#10094;
-                </button>
+                {canScrollLeft && (
+                    <button className="desktop-arrow left" onClick={scrollLeft}>
+                        &#10094;
+                    </button>
+                )}
                 <div className="project-carousel" ref={carouselRef}>
                     {images.map((img, i) => (
-                        <div
-                            key={i}
-                            className="carousel-item"
-                            onClick={() => setLightboxImage(img)}
-                        >
+                        <div key={i} className="carousel-item" onClick={() => setLightboxImage(img)}>
                             <img
                                 src={img.src}
-                                alt={img.alt || ""}
+                                alt={img.alt || ''}
                                 loading="lazy"
-                                onLoad={handleLoad}
+                                onLoad={(e) => e.currentTarget.parentElement.classList.add('loaded')}
                             />
-                            {img.caption && <p>{img.caption}</p>}
+                            <p>{img.caption}</p>
                         </div>
                     ))}
                 </div>
-                <button className="desktop-arrow right" onClick={scrollRight}>
-                    &#10095;
-                </button>
+                {canScrollRight && (
+                    <button className="desktop-arrow right" onClick={scrollRight}>
+                        &#10095;
+                    </button>
+                )}
             </div>
             <Lightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />
         </div>
-    );
+    )
 }
+
 
 function ServicesCarousel() {
     const images = [
