@@ -526,81 +526,41 @@ body {
 
 /* ---------------- PROJECTS ---------------- */
 
-
-
 .projects {
-
   padding: 6rem 2rem;
-
   min-height: 100vh;
-
 }
-
-
 
 @media (min-width: 900px) {
-
   .projects {
-
     min-height: 50vh;
-
   }
-
 }
-
-
 
 .projects-container {
-
   display: flex;
-
   flex-wrap: wrap;
-
   gap: 2rem;
-
   justify-content: center;
-
   align-items: stretch;
-
 }
-
-
 
 .project-carousel-container {
-
   flex: 1 1 350px;
-
   max-width: 600px;
-
   display: flex;
-
   flex-direction: column;
-
   margin-bottom: 2rem;
-
 }
-
-
 
 .carousel-label {
-
   margin-bottom: 0.5rem;
-
   font-size: 0.9rem;
-
   font-weight: 500;
-
   text-transform: uppercase;
-
   color: var(--primary);
-
   opacity: 0.8;
-
 }
-
-
-
-/* Wrapper controls uniform height */
 
 .project-carousel-wrapper {
   position: relative;
@@ -618,9 +578,17 @@ body {
 }
 
 .carousel-item {
+  flex: 0 0 auto;
+  height: 100%;
+  width: 260px;
+  min-width: 260px;
+  max-width: 380px;
   position: relative;
-  background: #e6e6e6;
+  border-radius: 8px;
   overflow: hidden;
+  cursor: pointer;
+  scroll-snap-align: start;
+  background: #e6e6e6;
 }
 
 .carousel-item::before {
@@ -629,137 +597,248 @@ body {
   inset: 0;
   background: #e6e6e6;
   z-index: 0;
-}
-
-.carousel-item img {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.6s ease;
-  will-change: opacity;
-}
-
-.carousel-item.loaded img {
-  opacity: 1;
-}
-
-.carousel-item.loaded::before {
-  opacity: 0;
-}
-
-
-/* ---------- Carousel Item ---------- */
-
-
-
-.carousel-item {
-
-
-  flex: 0 0 auto;
-
-  height: 100%;
-
-  width: 260px;
-
-  min-width:260px;
-  max-width: 380px;
-
-  position: relative;
-
-  border-radius: 8px;
-
-  overflow: hidden;
-
-  cursor: pointer;
-
-  background: #e6e6e6;
-
-  scroll-snap-align: start;
-
-}
-
-
-
-/* Skeleton layer */
-
-.carousel-item::before {
-
-  content: '';
-
-  position: absolute;
-
-  inset: 0;
-
-  background: #e6e6e6;
-
   transition: opacity 0.4s ease;
-
-  z-index: 1;
-
 }
-
-
-
-/* Image */
 
 .carousel-item img {
-
   width: 100%;
-
   height: 100%;
-
   object-fit: cover;
-
   opacity: 0;
-
   transition: opacity 0.6s ease;
-
   position: relative;
-
-  z-index: 2;
-
+  z-index: 1;
 }
-
-
-
-/* Loaded state */
 
 .carousel-item.loaded img {
-
   opacity: 1;
-
 }
-
-
 
 .carousel-item.loaded::before {
-
   opacity: 0;
-
   pointer-events: none;
-
 }
-
-
-
-/* Hide scrollbar */
 
 .project-carousel::-webkit-scrollbar {
-
   display: none;
-
 }
 
 .project-carousel {
-
   -ms-overflow-style: none;
-
   scrollbar-width: none;
-
 }
+
+/*.projects {*/
+
+/*  padding: 6rem 2rem;*/
+
+/*  min-height: 100vh;*/
+
+/*}*/
+
+
+
+/*@media (min-width: 900px) {*/
+
+/*  .projects {*/
+
+/*    min-height: 50vh;*/
+
+/*  }*/
+
+/*}*/
+
+
+
+/*.projects-container {*/
+
+/*  display: flex;*/
+
+/*  flex-wrap: wrap;*/
+
+/*  gap: 2rem;*/
+
+/*  justify-content: center;*/
+
+/*  align-items: stretch;*/
+
+/*}*/
+
+
+
+/*.project-carousel-container {*/
+
+/*  flex: 1 1 350px;*/
+
+/*  max-width: 600px;*/
+
+/*  display: flex;*/
+
+/*  flex-direction: column;*/
+
+/*  margin-bottom: 2rem;*/
+
+/*}*/
+
+
+
+/*.carousel-label {*/
+
+/*  margin-bottom: 0.5rem;*/
+
+/*  font-size: 0.9rem;*/
+
+/*  font-weight: 500;*/
+
+/*  text-transform: uppercase;*/
+
+/*  color: var(--primary);*/
+
+/*  opacity: 0.8;*/
+
+/*}*/
+
+
+
+/*!* Wrapper controls uniform height *!*/
+
+/*.project-carousel-wrapper {*/
+
+/*  position: relative;*/
+
+/*  height: 300px;*/
+
+/*}*/
+
+
+
+/*!* Scroll area *!*/
+
+/*.project-carousel {*/
+
+/*  display: flex;*/
+
+/*  gap: 0.75rem;*/
+
+/*  height: 100%;*/
+
+/*  overflow-x: auto;*/
+
+/*  scroll-snap-type: x mandatory;*/
+
+/*  align-items: stretch;*/
+
+/*}*/
+
+
+
+/*!* ---------- Carousel Item ---------- *!*/
+
+
+
+/*.carousel-item {*/
+
+/*  flex: 0 0 auto;*/
+
+/*  height: 100%;*/
+
+/*  width: 260px;*/
+
+/* flex: 0 0 260px;*/
+
+/*  position: relative;*/
+
+/*  border-radius: 8px;*/
+
+/*  overflow: hidden;*/
+
+/*  cursor: pointer;*/
+
+/*  background: #e6e6e6;*/
+
+/*  scroll-snap-align: start;*/
+
+/*}*/
+
+
+
+/*!* Skeleton layer *!*/
+
+/*.carousel-item::before {*/
+
+/*  content: '';*/
+
+/*  position: absolute;*/
+
+/*  inset: 0;*/
+
+/*  background: #e6e6e6;*/
+
+/*  transition: opacity 0.4s ease;*/
+
+/*  z-index: 1;*/
+
+/*}*/
+
+
+
+/*!* Image *!*/
+
+/*.carousel-item img {*/
+
+/*  width: 100%;*/
+
+/*  height: 100%;*/
+
+/*  object-fit: contain;*/
+
+/*  opacity: 0;*/
+
+/*  transition: opacity 0.6s ease;*/
+
+/*  position: relative;*/
+
+/*  z-index: 2;*/
+
+/*}*/
+
+
+
+/*!* Loaded state *!*/
+
+/*.carousel-item.loaded img {*/
+
+/*  opacity: 1;*/
+
+/*}*/
+
+
+
+/*.carousel-item.loaded::before {*/
+
+/*  opacity: 0;*/
+
+/*  pointer-events: none;*/
+
+/*}*/
+
+
+
+/*!* Hide scrollbar *!*/
+
+/*.project-carousel::-webkit-scrollbar {*/
+
+/*  display: none;*/
+
+/*}*/
+
+/*.project-carousel {*/
+
+/*  -ms-overflow-style: none;*/
+
+/*  scrollbar-width: none;*/
+
+/*}*/
 
 
 

@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
+import usePreloadCarouselImages from "./usePreloadCarouselImages.jsx";
+
 
 // ---------------- LIGHTBOX ----------------
 function Lightbox({ image, onClose }) {
@@ -187,6 +189,7 @@ function ServicesCarousel() {
 
 // ---------------- APP COMPONENT ----------------
 export default function App() {
+    usePreloadCarouselImages();
     const [menuOpen, setMenuOpen] = useState(false)
     const [heroAnimated, setHeroAnimated] = useState(false)
 
