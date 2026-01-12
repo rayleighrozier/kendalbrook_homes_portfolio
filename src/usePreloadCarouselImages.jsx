@@ -2,38 +2,38 @@ import { useEffect } from "react";
 
 export default function usePreloadCarouselImages() {
     useEffect(() => {
-        const images = document.querySelectorAll(".project-carousel img");
-        if (!images.length) return;
+        const images = [
+            "images/kitchen1.png",
+            "images/kitchen2.png",
+            "images/kitchen3.png",
+            "images/bars1.png",
+            "images/bars2.png",
+            "images/bars3.png",
+            "images/trim1.png",
+            "images/trim2.png",
+            "images/trim3.png",
+            "images/trim4.png",
+            "images/trim5.png",
+            "images/trim6.png",
+            "images/trim7.png",
+            "images/trim8.png",
+            "images/barn1.png",
+            "images/barn2.png",
+            "images/barn3.png",
+            "images/barn4.png",
+            "images/barn5.png",
+            "images/barn6.png",
+            "images/services_1.png",
+            "images/services_2.png",
+            "images/services_3.png",
+            "images/services_4.png",
+            "images/services_5.png",
+            "images/services_6.png",
+        ];
 
-        const preloadImage = (img) => {
-            const src = img.dataset.src || img.src;
-            if (!src) return;
-
-            const preloader = new Image();
-            preloader.src = src;
-            preloader.onload = () => {
-                img.src = src;
-                img.parentElement.classList.add("loaded");
-            };
-            preloader.onerror = () => {
-                img.parentElement.classList.add("loaded");
-            };
-        };
-
-        const observer = new IntersectionObserver(
-            (entries, obs) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        preloadImage(entry.target);
-                        obs.unobserve(entry.target);
-                    }
-                });
-            },
-            { rootMargin: "200px" } // preload slightly before scrolling
-        );
-
-        images.forEach((img) => observer.observe(img));
-
-        return () => observer.disconnect();
+        images.forEach((src) => {
+            const img = new Image();
+            img.src = src;
+        });
     }, []);
 }
