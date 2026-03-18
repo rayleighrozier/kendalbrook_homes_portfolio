@@ -214,7 +214,7 @@ body {
 
   min-height: 100vh;
 
-  background: url('/images/web_cover.jpg') center / cover no-repeat;
+  background: url('https://res.cloudinary.com/dcuthvguy/image/upload/q_auto,f_auto/v1773791747/web_cover_vy1zbt.jpg') center / cover no-repeat;
 
   color: var(--white);
 
@@ -551,6 +551,21 @@ body {
   display: flex;
   flex-direction: column;
   margin-bottom: 2rem;
+}
+
+.project-carousel-container.full-width {
+  flex: 1 1 100%;
+  max-width: calc(1200px + 2rem);
+  width: 100%;
+}
+
+.project-carousel-container.full-width .project-carousel-wrapper {
+  height: 350px;
+}
+
+.project-carousel-container.full-width .carousel-item {
+  width: 320px;
+  min-width: 320px;
 }
 
 .carousel-label {

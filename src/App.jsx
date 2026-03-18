@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import usePreloadCarouselImages from "./usePreloadCarouselImages.jsx";
+import { images as cdn } from "./cdn.js";
 
 function Lightbox({ image, onClose }) {
     if (!image) return null
@@ -11,7 +12,7 @@ function Lightbox({ image, onClose }) {
     )
 }
 
-function ProjectCarousel({ images, label }) {
+function ProjectCarousel({ images, label, fullWidth }) {
     const [lightboxImage, setLightboxImage] = useState(null)
     const carouselRef = useRef(null)
     const [canScrollLeft, setCanScrollLeft] = useState(false)
@@ -45,7 +46,7 @@ function ProjectCarousel({ images, label }) {
     }
 
     return (
-        <div className="project-carousel-container">
+        <div className={`project-carousel-container${fullWidth ? ' full-width' : ''}`}>
             {label && <span className="carousel-label">{label}</span>}
             <div className="project-carousel-wrapper">
                 {canScrollLeft && (
@@ -80,12 +81,12 @@ function ProjectCarousel({ images, label }) {
 
 function ServicesCarousel() {
     const images = [
-        "images/services_6.png",
-        "images/services_3.png",
-        "images/services_4.png",
-        "images/services_1.png",
-        "images/services_2.png",
-        "images/services_5.png",
+        cdn.services.s6,
+        cdn.services.s3,
+        cdn.services.s4,
+        cdn.services.s1,
+        cdn.services.s2,
+        cdn.services.s5,
     ];
 
     const [index, setIndex] = useState(0);
@@ -114,43 +115,55 @@ function ServicesCarousel() {
 function ProjectsSection() {
     const projectData = [
         {
+            label: "New Construction",
+            fullWidth: true,
+            images: [
+                { src: cdn.services.s1 },
+                { src: cdn.services.s2 },
+                { src: cdn.services.s3 },
+                { src: cdn.services.s4 },
+                { src: cdn.services.s5 },
+                { src: cdn.services.s6 },
+            ],
+        },
+        {
             label: "Kitchens",
             images: [
-                { src: "images/kitchen1.png" },
-                { src: "images/kitchen2.png" },
-                { src: "images/kitchen3.png" },
+                { src: cdn.kitchens.k1 },
+                { src: cdn.kitchens.k2 },
+                { src: cdn.kitchens.k3 },
             ],
         },
         {
             label: "Bars",
             images: [
-                { src: "images/bars1.png" },
-                { src: "images/bars2.png" },
-                { src: "images/bars3.png" },
+                { src: cdn.bars.b1 },
+                { src: cdn.bars.b2 },
+                { src: cdn.bars.b3 },
             ],
         },
         {
             label: "Trim",
             images: [
-                { src: "images/trim1.png" },
-                { src: "images/trim2.png" },
-                { src: "images/trim3.png" },
-                { src: "images/trim4.png" },
-                { src: "images/trim5.png" },
-                { src: "images/trim6.png" },
-                { src: "images/trim7.png" },
-                { src: "images/trim8.png" },
+                { src: cdn.trim.t1 },
+                { src: cdn.trim.t2 },
+                { src: cdn.trim.t3 },
+                { src: cdn.trim.t4 },
+                { src: cdn.trim.t5 },
+                { src: cdn.trim.t6 },
+                { src: cdn.trim.t7 },
+                { src: cdn.trim.t8 },
             ],
         },
         {
-            label: "Barn",
+            label: "Barns",
             images: [
-                { src: "images/barn1.png" },
-                { src: "images/barn2.png" },
-                { src: "images/barn3.png" },
-                { src: "images/barn4.png" },
-                { src: "images/barn5.png" },
-                { src: "images/barn6.png" },
+                { src: cdn.barns.b2 },
+                { src: cdn.barns.b5 },
+                { src: cdn.barns.b1 },
+                { src: cdn.barns.b3 },
+                { src: cdn.barns.b4 },
+                { src: cdn.barns.b6 },
             ],
         },
     ];
@@ -164,6 +177,7 @@ function ProjectsSection() {
                         key={idx}
                         images={category.images}
                         label={category.label}
+                        fullWidth={category.fullWidth}
                     />
                 ))}
             </div>
@@ -193,7 +207,7 @@ export default function App() {
             <nav className="nav">
                 <div className="logo-container">
                     <img
-                        src="images/kendalbrook_homes_logo.png"
+                        src={cdn.logo}
                         alt="Kendalbrook Homes Inc."
                         className="logo-image"
                     />
@@ -238,6 +252,7 @@ export default function App() {
                         <h2>Services</h2>
                         <ul className="services-list">
                             <li>Custom Homes & Whole-House Renovations</li>
+                            <li>Custom Barndominiums – Timber Frame & Metal Building</li>
                             <li>Kitchens, Bathrooms, & Interior Remodeling</li>
                             <li>Additions, Decks, & Covered Porches</li>
                             <li>Garages & Basements</li>
@@ -256,19 +271,13 @@ export default function App() {
             <section id="about" className="section about">
                 <h2>About Us</h2>
                 <p>
-                    Keith Fouts has over 33 years of experience in residential
-                    construction, and has been building and remodeling homes since 2000.
-                    He founded Kendalbrook Homes Inc. in 2004, providing fully licensed
-                    and insured services based in Buckhead, serving the Atlanta metro area
-                    and throughout Georgia.
+                    Kendalbrook Homes is a craftsman-driven custom home builder and renovation firm specializing in high-end residential projects that prioritize timeless materials, precision execution, and collaborative design.
                 </p>
                 <p>
-                    Kendalbrook Homes collaborates closely with designers and architects
-                    to deliver custom homes and renovations that reflect each client’s
-                    vision.
+                    With over 33 years of residential construction experience, founder Keith Fouts established Kendalbrook Homes Inc. in 2004. We are fully licensed and insured, based in Buckhead and serving the Atlanta metro area and throughout Georgia.
                 </p>
                 <p>
-                    Our specialties include French Oak flooring, 100+ year-old reclaimed barn and warehouse beams, and custom or pre-manufactured cabinetry. Whether supplying materials only or providing full installation, every project receives the same level of craftsmanship and attention to detail, regardless of scope or size.
+                    We collaborate closely with designers and architects to deliver custom homes and renovations that reflect each client's vision. Our specialties include French Oak flooring, 100+ year-old reclaimed barn and warehouse beams, and custom or pre-manufactured cabinetry. Whether supplying materials only or providing full installation, every project receives the same level of craftsmanship and attention to detail, regardless of scope or size.
                 </p>
             </section>
 
@@ -277,7 +286,7 @@ export default function App() {
             <section id="contact" className="section contact">
                 <div className="contact-inner">
                     <div className="contact-logo">
-                        <img src="images/kendalbrook_homes_logo.png" alt="Kendalbrook Homes Inc." />
+                        <img src={cdn.logo} alt="Kendalbrook Homes Inc." />
                     </div>
                     <div className="contact-info">
                         <h2>Get in Touch</h2>
