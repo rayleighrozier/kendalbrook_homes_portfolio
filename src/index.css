@@ -1162,6 +1162,18 @@ body {
 
   }
 
+  .carousel-item {
+    width: 75vw;
+    min-width: 220px;
+    max-width: 300px;
+  }
+
+  .project-carousel-container.full-width .carousel-item {
+    width: 75vw;
+    min-width: 220px;
+    max-width: 300px;
+  }
+
 
 
   .contact-inner {
