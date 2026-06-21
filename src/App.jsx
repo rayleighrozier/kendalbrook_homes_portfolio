@@ -3,13 +3,29 @@ import usePreloadCarouselImages from "./usePreloadCarouselImages.jsx";
 import { images as cdn } from "./cdn.js";
 
 function Lightbox({ image, onClose }) {
-    if (!image) return null
+    // Close lightbox on Escape key
+    useEffect(() => {
+        if (!image) return;
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') onClose();
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        return () => document.removeEventListener('keydown', handleKeyDown);
+    }, [image, onClose]);
+
+    if (!image) return null;
     return (
-        <div className="lightbox" onClick={onClose}>
-            <img src={image.src} alt={image.alt} />
-            <p>{image.caption}</p>
+        <div
+            className="lightbox"
+            onClick={onClose}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Image preview"
+        >
+            <img src={image.src} alt={image.alt || 'Project photo'} />
+            {image.caption && <p>{image.caption}</p>}
         </div>
-    )
+    );
 }
 
 function ProjectCarousel({ images, label, fullWidth }) {
@@ -50,25 +66,25 @@ function ProjectCarousel({ images, label, fullWidth }) {
             {label && <span className="carousel-label">{label}</span>}
             <div className="project-carousel-wrapper">
                 {canScrollLeft && (
-                    <button className="desktop-arrow left" onClick={scrollLeft}>
+                    <button className="desktop-arrow left" onClick={scrollLeft} aria-label="Scroll left">
                         &#10094;
                     </button>
                 )}
                 <div className="project-carousel" ref={carouselRef}>
                     {images.map((img, i) => (
-                        <div key={i} className="carousel-item" onClick={() => setLightboxImage(img)}>
+                        <div key={img.src} className="carousel-item" onClick={() => setLightboxImage(img)}>
                             <img
                                 src={img.src}
-                                alt={img.alt || ''}
+                                alt={img.alt || `${label} project photo ${i + 1}`}
                                 loading="lazy"
                                 onLoad={(e) => e.currentTarget.parentElement.classList.add('loaded')}
                             />
-                            <p>{img.caption}</p>
+                            {img.caption && <p>{img.caption}</p>}
                         </div>
                     ))}
                 </div>
                 {canScrollRight && (
-                    <button className="desktop-arrow right" onClick={scrollRight}>
+                    <button className="desktop-arrow right" onClick={scrollRight} aria-label="Scroll right">
                         &#10095;
                     </button>
                 )}
@@ -99,12 +115,12 @@ function ServicesCarousel() {
     }, [images.length]);
 
     return (
-        <div className="services-carousel">
+        <div className="services-carousel" aria-label="Services showcase">
             {images.map((src, i) => (
                 <img
-                    key={i}
+                    key={src}
                     src={src}
-                    alt="Construction and renovation work"
+                    alt={`Custom home construction project ${i + 1}`}
                     className={i === index ? "active" : ""}
                 />
             ))}
@@ -172,9 +188,9 @@ function ProjectsSection() {
         <section id="projects" className="section projects">
             <h2>Our Work</h2>
             <div className="projects-container">
-                {projectData.map((category, idx) => (
+                {projectData.map((category) => (
                     <ProjectCarousel
-                        key={idx}
+                        key={category.label}
                         images={category.images}
                         label={category.label}
                         fullWidth={category.fullWidth}
@@ -297,7 +313,7 @@ export default function App() {
                         <p>
                             Phone: <a href="tel:16789250411" className="contact-link">678-925-0411</a>
                         </p>
-                        <p className="contact-email">Email: ckfouts@bellsouth.net</p>
+                        <p className="contact-email">Email: keithfouts9@gmail.com</p>
                         <a
                             href="https://www.facebook.com/p/Kendalbrook-Homes-Inc-100063496987476/"
                             target="_blank"

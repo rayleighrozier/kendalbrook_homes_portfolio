@@ -1,0 +1,5 @@
+# Robots.txt for Kendalbrook Homes Inc.
+User-agent: *
+Allow: /
+
+Sitemap: https://kendalbrookhomes.com/sitemap.xml
